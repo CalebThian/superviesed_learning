@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-def str2num(data):
+def str2num(data,test=False):
     data[1] = float(data[1])
     data[2] = float(data[2])
     data[3] = float(data[3])
@@ -17,7 +17,8 @@ def str2num(data):
     data[28] = int(data[28])
     data[29] = int(data[29])
     data[42] = int(data[42])
-    data[43] = int(data[43])
+    if test==False:
+        data[43] = int(data[43])
 
 def label_encoder(results):
     # categorical column [4,7,8,9,10,11,12,14,15,16,17,18,19,22,24,30,31,32,33,34,35,36,37,38,39,40,41]
@@ -31,7 +32,7 @@ def label_encoder(results):
                 counter += 1
             r[col] = Dict[r[col]]
 
-def read_csv(path):
+def read_csv(path,test=False):
     with open(path , 'r') as f:
         header = []
         results = []
@@ -42,11 +43,10 @@ def read_csv(path):
             else:
                 words = line.split(',')
                 words[-1] = words[-1][:-1]
-                str2num(words)
+                str2num(words,test=test)
                 results.append(words)
         label_encoder(results)
         return header,results
-
 
 
 
