@@ -43,7 +43,7 @@ def label_encoder(results,Dict = None):
             r[col] = Dict[col][r[col]]
     return Dict
 
-def read_csv(path,test=False):
+def read_csv(path,test=False,Dict = None):
     with open(path , 'r') as f:
         header = []
         results = []
@@ -56,5 +56,5 @@ def read_csv(path,test=False):
                 words[-1] = words[-1][:-1]
                 str2num(words,test=test)
                 results.append(words)
-        label_encoder(results)
+        label_encoder(results,Dict = Dict)
         return header,results
