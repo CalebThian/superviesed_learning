@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+train_path = "..//data//train.csv"
+test_path = "..//data//test.csv"
+
 def str2num(data,test=False):
     data[1] = float(data[1])
     data[2] = float(data[2])
@@ -20,17 +23,25 @@ def str2num(data,test=False):
     if test==False:
         data[43] = int(data[43])
 
-def label_encoder(results):
+def label_encoder(results,Dict = None):
     # categorical column [4,7,8,9,10,11,12,14,15,16,17,18,19,22,24,30,31,32,33,34,35,36,37,38,39,40,41]
     cat = [4,7,8,9,10,11,12,14,15,16,17,18,19,22,24,30,31,32,33,34,35,36,37,38,39,40,41]
+    if Dict == None:
+        Dict=dict()
+        
     for col in cat:
-        Dict = dict()
-        counter = 0
+        if col not in Dict.keys():
+            Dict[col] = dict()
+            counter = 0
+        else:
+            counter = len(Dict[col])
+                
         for r in results:
-            if r[col] not in Dict.keys():
-                Dict[r[col]]=counter
+            if r[col] not in Dict[col].keys():
+                Dict[col][r[col]]=counter
                 counter += 1
-            r[col] = Dict[r[col]]
+            r[col] = Dict[col][r[col]]
+    return Dict
 
 def read_csv(path,test=False):
     with open(path , 'r') as f:
@@ -47,6 +58,3 @@ def read_csv(path,test=False):
                 results.append(words)
         label_encoder(results)
         return header,results
-
-
-
