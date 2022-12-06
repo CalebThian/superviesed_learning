@@ -105,28 +105,7 @@ class NaiveBayesClassifier:
             y_true.append(d[43])
             y_pred.append(self.predict_one(d))
         
-        TP = 0
-        TN = 0
-        FP = 0
-        FN = 0
-        for i,j in zip(y_true,y_pred):
-            if i==j:
-                if i == 1:
-                    TP += 1
-                else:
-                    TN += 1
-            else:
-                if j == 1:
-                    FP += 1
-                else:
-                    FN += 1
-        recall = TP/(TP+FN)
-        precision = TP/(TP+FP)
-        accuracy = (TP+TN)/(TP+TN+FP+FN)
-        print("Recall = {0:.2%}".format(recall))
-        print("Precision = {0:.2%}".format(precision))
-        print("Accuracy = {0:.2%}".format(accuracy))
-        return [[TN,FP],[FN,TP]]
+        return confusion_matrix(y_true,y_pred)]
     
     def predict(self,data):
         y_pred = []
@@ -134,19 +113,19 @@ class NaiveBayesClassifier:
             y_pred.append(self.predict_one(d))
         return y_pred
 
-if __name__=="__main__":
-    train_path = "..//data//train.csv"
-    header,data = read_csv(train_path)
-    train,test,_ = train_test_split(data,test_size=0)
 
-    print("Naive Bayes Classifier:")
-    clf = NaiveBayesClassifier()
-    clf.fit(train)
-    
-    print("->On train dataset(90%)")
-    conf_mat = clf.score(train)
-    visualize_score(conf_mat)
-    
-    print("->On test dataset(10%)")
-    conf_mat = clf.score(test)
-    visualize_score(conf_mat)
+train_path = "..//data//train.csv"
+header,data = read_csv(train_path)
+train,test,_ = train_test_split(data,test_size=0)
+
+print("Naive Bayes Classifier:")
+clf = NaiveBayesClassifier()
+clf.fit(train)
+
+print("->On train dataset(90%)")
+conf_mat = clf.score(train)
+visualize_score(conf_mat)
+
+print("->On test dataset(10%)")
+conf_mat = clf.score(test)
+visualize_score(conf_mat)
