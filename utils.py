@@ -56,10 +56,14 @@ def classify(clf,name,data_path =  "..//data//train.csv"):
     print(f"{name}:")
     X_train,y_train,X_test,y_test,Dict = data_process(data_path)
     
-    if "Cat" in name:
+    if "my" in name: #My random forest classifier
+        clf.set_Dict(Dict)
+    
+    if "Cat" in name: # CatBoost
         clf.fit(X_train, y_train,verbose=0)
     else:
         clf.fit(X_train, y_train)
+     
     y_pred = clf.predict(X_train)
     conf_mat = confusion_matrix(y_train,y_pred)
     visualize_score(conf_mat)
