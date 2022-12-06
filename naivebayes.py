@@ -1,14 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from data import read_csv
-import seaborn as sns
-
-train_path = "..//data//train.csv"
-test_path = "..//data//test.csv"
-
-header,train,d = read_csv(train_path)
-_,test,_ = read_csv(test_path,test=True,Dict = d)
+from data import read_csv,train_test_split
+from utils import visualize_score
 
 class NaiveBayesClassifier:
     def __init__(self):
@@ -19,7 +13,6 @@ class NaiveBayesClassifier:
         for i in range(1,43): #ID and is_claim is excluded
             if i not in self.cat:
                 self.num.append(i)
-        print("NaiveBayesClassfier is created")
         
     def fit(self,data):
         self.data = data
@@ -141,18 +134,19 @@ class NaiveBayesClassifier:
             y_pred.append(self.predict_one(d))
         return y_pred
 
-clf = NaiveBayesClassifier()
-clf.fit(train)
-conf_mat = clf.score(train)
-conf_mat_flatten = [conf_mat[0][0],conf_mat[0][1],conf_mat[1][0],conf_mat[1][1]]
+if __name__=="__main__":
+    train_path = "..//data//train.csv"
+    header,data = read_csv(train_path)
+    train,test,_ = train_test_split(data,test_size=0)
 
-names = ['TN','FP','FN','TP']
-counts = ["{0:0.0f}".format(value) for value in conf_mat_flatten]
-total = conf_mat[0][0]+conf_mat[0][1]+conf_mat[1][0]+conf_mat[1][1]
-percentages = ["{0:.2%}".format(value/total) for value in conf_mat_flatten]
-labels = [f"{n}\n{c}\n{p}" for n, c, p in zip(names,counts,percentages)]
-labels = [[labels[0],labels[1]],[labels[2],labels[3]]]
-sns.heatmap(conf_mat, annot=labels, fmt='', cmap='Blues')
-
-y_pred = clf.predict(test)
-
+    print("Naive Bayes Classifier:")
+    clf = NaiveBayesClassifier()
+    clf.fit(train)
+    
+    print("->On train dataset(90%)")
+    conf_mat = clf.score(train)
+    visualize_score(conf_mat)
+    
+    print("->On test dataset(10%)")
+    conf_mat = clf.score(test)
+    visualize_score(conf_mat)
