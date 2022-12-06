@@ -224,3 +224,6 @@ class myRandomForestClassifier:
             final_pred = max(ensemble_preds, key = ensemble_preds.count)
             pred_ls.append(final_pred)
         return pred_ls
+    
+    def get_params(self,deep=False):
+        return dict()

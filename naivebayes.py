@@ -9,7 +9,6 @@ class NaiveBayesClassifier:
         for i in range(42): #ID and is_claim is excluded
             if i not in self.cat:
                 self.num.append(i)
-        print("NaiveBayesClassfier is created")
         
     def fit(self,X,y):
         self.data = X
@@ -109,3 +108,6 @@ class NaiveBayesClassifier:
         for d in data:
             y_pred.append(self.predict_one(d))
         return y_pred
+    
+    def get_params(self,deep=False):
+        return dict()
