@@ -1,15 +1,5 @@
 #!/usr/bin/env python
 # coding: utf-8
-
-# In[15]:
-
-
-from utils import classify
-
-
-# In[16]:
-
-
 class NaiveBayesClassifier:
     def __init__(self):
         self.cat = [3,6,7,8,9,10,11,13,14,15,16,17,18,21,23,29,30,31,32,33,34,35,36,37,38,39,40]
@@ -119,17 +109,3 @@ class NaiveBayesClassifier:
         for d in data:
             y_pred.append(self.predict_one(d))
         return y_pred
-
-
-# In[17]:
-
-
-clf = NaiveBayesClassifier()
-classify(clf,"Naive Bayes Clasifier")
-
-
-# In[ ]:
-
-
-
-
