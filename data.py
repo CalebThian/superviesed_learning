@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-train_path = "..//data//train.csv"
-test_path = "..//data//test.csv"
+data_path = "..//data//train.csv"
 
 def str2num(data,test=False):
     data[1] = float(data[1])
@@ -23,27 +22,21 @@ def str2num(data,test=False):
     if test==False:
         data[43] = int(data[43])
 
-def label_encoder(results,Dict = None):
+def label_encoder(results):
     # categorical column [4,7,8,9,10,11,12,14,15,16,17,18,19,22,24,30,31,32,33,34,35,36,37,38,39,40,41]
     cat = [4,7,8,9,10,11,12,14,15,16,17,18,19,22,24,30,31,32,33,34,35,36,37,38,39,40,41]
-    if Dict == None:
-        Dict=dict()
+    Dict=dict()
         
     for col in cat:
-        if col not in Dict.keys():
-            Dict[col] = dict()
-            counter = 0
-        else:
-            counter = len(Dict[col])
-                
+        Dict[col] = dict()
+        counter = 0          
         for r in results:
             if r[col] not in Dict[col].keys():
                 Dict[col][r[col]]=counter
                 counter += 1
             r[col] = Dict[col][r[col]]
-    return Dict
 
-def read_csv(path,test=False,Dict = None):
+def read_csv(path):
     with open(path , 'r') as f:
         header = []
         results = []
@@ -54,7 +47,16 @@ def read_csv(path,test=False,Dict = None):
             else:
                 words = line.split(',')
                 words[-1] = words[-1][:-1]
-                str2num(words,test=test)
+                str2num(words)
                 results.append(words)
-        d = label_encoder(results,Dict = Dict)
-        return header,results,d
+        label_encoder(results)
+        return header,results
+
+def train_test_split(data,val_size = 0.1, test_size = 0.1):
+    train = int(len(data)*(1-val_size-test_size))
+    val = int(len(data)*(1-test_size))
+    
+    train_set = data[:train]
+    val_set = data[train:val]
+    test_set = data[val:]
+    return train_set,val_set,test_set
