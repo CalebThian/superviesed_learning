@@ -17,7 +17,7 @@ def visualize_score(conf_mat):
     xlabel('Predict', fontsize = 15) # x-axis label with fontsize 15
     ylabel('Truth', fontsize = 15) # y-axis label with fontsize 15
 
-def data_process(path):
+def data_process(path=  "..//data//train.csv"):
     header,data = read_csv(path)
     train,test,_ = train_test_split(data,test_size=0)
     X_train,y_train = data2XY(train)
