@@ -65,6 +65,6 @@ def data2XY(data):
     X = []
     y = []
     for d in data:
-        X.append(d[:-1])
+        X.append(d[1:-1]) # ID is excluded
         y.append(d[-1])
     return X,y
