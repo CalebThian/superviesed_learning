@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import seaborn as sns
-import matplotlib.pyplot as plt
+from seaborn import heatmap
+from matplotlib.pyplot import show,xlabel,ylabel
 from data import read_csv,train_test_split,data2XY
 
 def visualize_score(conf_mat):
@@ -13,9 +13,9 @@ def visualize_score(conf_mat):
     percentages = ["{0:.2%}".format(value/total) for value in conf_mat_flatten]
     labels = [f"{n}\n{c}\n{p}" for n, c, p in zip(names,counts,percentages)]
     labels = [[labels[0],labels[1]],[labels[2],labels[3]]]
-    sns.heatmap(conf_mat, annot=labels, fmt='')
-    plt.xlabel('Predict', fontsize = 15) # x-axis label with fontsize 15
-    plt.ylabel('Truth', fontsize = 15) # y-axis label with fontsize 15
+    heatmap(conf_mat, annot=labels, fmt='')
+    xlabel('Predict', fontsize = 15) # x-axis label with fontsize 15
+    ylabel('Truth', fontsize = 15) # y-axis label with fontsize 15
 
 def data_process(path):
     header,data = read_csv(path)
@@ -52,3 +52,19 @@ def confusion_matrix(y_true,y_pred):
     print("Accuracy = {0:.2%}".format(accuracy))
     return [[TN,FP],[FN,TP]]
 
+def classify(clf,name,data_path =  "..//data//train.csv"):
+    print(f"{name}:")
+    X_train,y_train,X_test,y_test = data_process(data_path)
+    
+    if "Cat" in name:
+        clf.fit(X_train, y_train,verbose=0)
+    else:
+        clf.fit(X_train, y_train)
+    y_pred = clf.predict(X_train)
+    conf_mat = confusion_matrix(y_train,y_pred)
+    visualize_score(conf_mat)
+    show()
+    
+    y_pred = clf.predict(X_test)
+    conf_mat = confusion_matrix(y_test,y_pred)
+    visualize_score(conf_mat)
