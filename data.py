@@ -60,3 +60,11 @@ def train_test_split(data,val_size = 0.1, test_size = 0.1):
     val_set = data[train:val]
     test_set = data[val:]
     return train_set,val_set,test_set
+
+def data2XY(data):
+    X = []
+    y = []
+    for d in data:
+        X.append(d[:-1])
+        y.append(d[-1])
+    return X,y
