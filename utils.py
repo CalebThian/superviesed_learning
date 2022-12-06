@@ -19,7 +19,7 @@ def visualize_score(conf_mat):
 
 def data_process(path=  "..//data//train.csv"):
     header,data,Dict = read_csv(path)
-    train,test,_ = train_test_split(data,test_size=0)
+    train,test,_ = train_test_split(data,val_size=0.2,test_size=0)
     X_train,y_train = data2XY(train)
     X_test,y_test = data2XY(test)
     return X_train,y_train,X_test,y_test,Dict
