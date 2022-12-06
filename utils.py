@@ -18,11 +18,11 @@ def visualize_score(conf_mat):
     ylabel('Truth', fontsize = 15) # y-axis label with fontsize 15
 
 def data_process(path=  "..//data//train.csv"):
-    header,data = read_csv(path)
+    header,data,Dict = read_csv(path)
     train,test,_ = train_test_split(data,test_size=0)
     X_train,y_train = data2XY(train)
     X_test,y_test = data2XY(test)
-    return X_train,y_train,X_test,y_test
+    return X_train,y_train,X_test,y_test,Dict
 
 def confusion_matrix(y_true,y_pred):
     TP = 0
@@ -54,7 +54,7 @@ def confusion_matrix(y_true,y_pred):
 
 def classify(clf,name,data_path =  "..//data//train.csv"):
     print(f"{name}:")
-    X_train,y_train,X_test,y_test = data_process(data_path)
+    X_train,y_train,X_test,y_test,Dict = data_process(data_path)
     
     if "Cat" in name:
         clf.fit(X_train, y_train,verbose=0)

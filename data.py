@@ -35,6 +35,7 @@ def label_encoder(results):
                 Dict[col][r[col]]=counter
                 counter += 1
             r[col] = Dict[col][r[col]]
+    return Dict
 
 def read_csv(path):
     with open(path , 'r') as f:
@@ -49,8 +50,8 @@ def read_csv(path):
                 words[-1] = words[-1][:-1]
                 str2num(words)
                 results.append(words)
-        label_encoder(results)
-        return header,results
+        Dict=label_encoder(results)
+        return header,results,Dict
 
 def train_test_split(data,val_size = 0.1, test_size = 0.1):
     train = int(len(data)*(1-val_size-test_size))
