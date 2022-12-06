@@ -1,25 +1,33 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from data import read_csv,train_test_split
-from utils import visualize_score
+# In[15]:
+
+
+from utils import classify
+
+
+# In[16]:
+
 
 class NaiveBayesClassifier:
     def __init__(self):
-        self.cat = [4,7,8,9,10,11,12,14,15,16,17,18,19,22,24,30,31,32,33,34,35,36,37,38,39,40,41]
+        self.cat = [3,6,7,8,9,10,11,13,14,15,16,17,18,21,23,29,30,31,32,33,34,35,36,37,38,39,40]
         self.num = []
         self.e = 2.71828182846
         self.pi = 3.14159265359
-        for i in range(1,43): #ID and is_claim is excluded
+        for i in range(42): #ID and is_claim is excluded
             if i not in self.cat:
                 self.num.append(i)
+        print("NaiveBayesClassfier is created")
         
-    def fit(self,data):
-        self.data = data
+    def fit(self,X,y):
+        self.data = X
+        self.y = y
         self.posterior = dict()
         self.claim = [0,0] #Calculation of is_claim in categorical fit
-        for d in self.data:
-            claim = d[43]
+        for i,d in enumerate(self.data):
+            claim = self.y[i]
             self.claim[claim] += 1 
         self.categorical_prob()
         self.numerical_prob()
@@ -30,8 +38,8 @@ class NaiveBayesClassifier:
         for c in self.cat:
             self.posterior[c] = dict()
         
-        for d in self.data:
-            claim = d[43]
+        for i,d in enumerate(self.data):
+            claim = self.y[i]
             for c in self.cat:
                 if d[c] not in self.posterior[c].keys():
                     self.posterior[c][d[c]]=[0,0]
@@ -53,9 +61,9 @@ class NaiveBayesClassifier:
             # The first subarray store the data of is_claim=0, the second store the data of is_claim=1
             subdata[c] = [[0],[0]] # The first element of each subarray is the sum of the rest elements
 
-        for d in self.data:
+        for i,d in enumerate(self.data):
             for c in self.num:
-                claim = d[43]
+                claim = self.y[i]
                 subdata[c][claim][0] += d[c]
                 subdata[c][claim].append(d[c])
 
@@ -98,14 +106,13 @@ class NaiveBayesClassifier:
         else:
             return 1
         
-    def score(self,data):
+    def score(self,X,y_true):
         y_pred = []
-        y_true = []
-        for d in data:
-            y_true.append(d[43])
+
+        for x in X:
             y_pred.append(self.predict_one(d))
         
-        return confusion_matrix(y_true,y_pred)]
+        return confusion_matrix(y_true,y_pred)
     
     def predict(self,data):
         y_pred = []
@@ -114,18 +121,15 @@ class NaiveBayesClassifier:
         return y_pred
 
 
-train_path = "..//data//train.csv"
-header,data = read_csv(train_path)
-train,test,_ = train_test_split(data,test_size=0)
+# In[17]:
 
-print("Naive Bayes Classifier:")
+
 clf = NaiveBayesClassifier()
-clf.fit(train)
+classify(clf,"Naive Bayes Clasifier")
 
-print("->On train dataset(90%)")
-conf_mat = clf.score(train)
-visualize_score(conf_mat)
 
-print("->On test dataset(10%)")
-conf_mat = clf.score(test)
-visualize_score(conf_mat)
+# In[ ]:
+
+
+
+
