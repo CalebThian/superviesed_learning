@@ -3,6 +3,8 @@
 
 import seaborn as sns
 import matplotlib.pyplot as plt
+from data import read_csv,train_test_split,data2XY
+
 def visualize_score(conf_mat):
     conf_mat_flatten = [conf_mat[0][0],conf_mat[0][1],conf_mat[1][0],conf_mat[1][1]]
     names = ['TN','FP','FN','TP']
@@ -15,6 +17,12 @@ def visualize_score(conf_mat):
     plt.xlabel('Predict', fontsize = 15) # x-axis label with fontsize 15
     plt.ylabel('Truth', fontsize = 15) # y-axis label with fontsize 15
 
+def data_process(path):
+    header,data = read_csv(path)
+    train,test,_ = train_test_split(data,test_size=0)
+    X_train,y_train = data2XY(train)
+    X_test,y_test = data2XY(test)
+    return X_train,y_train,X_test,y_test
 
 def confusion_matrix(y_true,y_pred):
     TP = 0
@@ -43,7 +51,4 @@ def confusion_matrix(y_true,y_pred):
     print("Precision = {0:.2%}".format(precision))
     print("Accuracy = {0:.2%}".format(accuracy))
     return [[TN,FP],[FN,TP]]
-
-
-
 
