@@ -6,7 +6,8 @@ from random import randint,choices
 from utils import classify
 
 class myRandomForestClassifier:
-    def __init__(self):
+    def __init__(self,Dict=None):
+        self.Dict = Dict
         self.n_estimators = 10
         self.max_features = int(42**0.5)
         self.max_depth = 3
@@ -226,4 +227,4 @@ class myRandomForestClassifier:
         return pred_ls
     
     def get_params(self,deep=False):
-        return dict()
+        return {Dict: self.Dict()}
