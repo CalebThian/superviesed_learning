@@ -11,8 +11,8 @@ python main.py
 
 Sample output:
 
-Naive Bayes Clasifier:
-Recall = 99.74%
+Naive Bayes Clasifier:  
+Recall = 99.74%  
 Precision = 6.66%
 Accuracy = 7.22%
 F1-score = 12.49%
