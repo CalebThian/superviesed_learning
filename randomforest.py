@@ -187,7 +187,7 @@ class myRandomForestClassifier:
             tree_ls.append(tree)
             oob_error = self.oob_score(tree, X_oob, y_oob)
             oob_ls.append(oob_error)
-        print("OOB estimate: {:.2f}".format(sum(oob_ls)/len(oob_ls)))# mean
+        #print("OOB estimate: {:.2f}".format(sum(oob_ls)/len(oob_ls)))# mean
         return tree_ls
 
     def predict_tree(self,tree, X_test):

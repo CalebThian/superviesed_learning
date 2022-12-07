@@ -58,13 +58,16 @@ def confusion_matrix(y_true,y_pred):
 
 def classify(clf,name,data_path =  "..//data//train.csv"):
     print(f"{name}:")
-    X_train,y_train,X_test,y_test = data_process(val_size = 0.2,test_size = 0,path = data_path)
+    X_train,y_train,X_test,y_test = data_process(val_size = 0.1,test_size = 0,path = data_path)
     clf.fit(X_train, y_train)
-     
+    
+    '''
+    # Test on train set
     y_pred = clf.predict(X_train)
     conf_mat = confusion_matrix(y_train,y_pred)
     visualize_score(conf_mat)
     show()
+    '''
     
     y_pred = clf.predict(X_test)
     conf_mat = confusion_matrix(y_test,y_pred)
@@ -75,4 +78,4 @@ def classify_k_fold(clf,name,k,data_path = '..//data//train.csv'):
     X,y,_,_ = data_process(val_size = 0,test_size = 0,path = data_path)
     for cv in k:
         mean_score = cross_val_score(clf, X, y, scoring="f1", cv = cv).mean()
-        print(f"->{cv}-fold cross validation:{mean_score}")
+        print("->{0}-fold cross validation:{1:.2%}".format(cv,mean_score))
