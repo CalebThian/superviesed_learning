@@ -9,7 +9,7 @@ class myRandomForestClassifier:
     def __init__(self):
         self.n_estimators = 10
         self.max_features = int(42**0.5)
-        self.max_depth = 3
+        self.max_depth = 10
         self.min_samples_split = 2
         self.num_features = 42
         self.feature_cat = [3,6,7,8,9,10,11,13,14,15,16,17,18,21,23,29,30,31,32,33,34,35,36,37,38,39,40]

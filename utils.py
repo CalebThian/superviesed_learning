@@ -56,7 +56,7 @@ def confusion_matrix(y_true,y_pred):
     print("F1-score = {0:.2%}".format(f1_score))
     return [[TN,FP],[FN,TP]]
 
-def classify(clf,name,data_path =  "..//data//train.csv"):
+def classify(clf,name,data_path =  ".//train.csv"):
     print(f"{name}:")
     X_train,y_train,X_test,y_test = data_process(val_size = 0.1,test_size = 0,path = data_path)
     clf.fit(X_train, y_train)
@@ -73,7 +73,7 @@ def classify(clf,name,data_path =  "..//data//train.csv"):
     conf_mat = confusion_matrix(y_test,y_pred)
     visualize_score(conf_mat)
     
-def classify_k_fold(clf,name,k,data_path = '..//data//train.csv'):
+def classify_k_fold(clf,name,k,data_path = './/train.csv'):
     print(f"{name}: F1-score")
     X,y,_,_ = data_process(val_size = 0,test_size = 0,path = data_path)
     for cv in k:

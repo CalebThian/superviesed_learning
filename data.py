@@ -20,6 +20,7 @@ def str2num(data):
     data[28] = int(data[28])
     data[29] = int(data[29])
     data[42] = int(data[42])
+    data[43] = int(data[43])
 
 def label_encoder(results):
     # categorical column [4,7,8,9,10,11,12,14,15,16,17,18,19,22,24,30,31,32,33,34,35,36,37,38,39,40,41]
