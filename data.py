@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
+from random import randint
 
 data_path = "..//data//train.csv"
 
@@ -50,17 +51,28 @@ def read_csv(path):
                 words[-1] = words[-1][:-1]
                 str2num(words)
                 results.append(words)
-        Dict=label_encoder(results)
-        return header,results,Dict
+        label_encoder(results)
+        return header,results
 
 def train_test_split(data,val_size = 0.1, test_size = 0.1):
     train = int(len(data)*(1-val_size-test_size))
     val = int(len(data)*(1-test_size))
     
+    data = shuffle(data)
     train_set = data[:train]
     val_set = data[train:val]
     test_set = data[val:]
     return train_set,val_set,test_set
+
+def shuffle(data):
+    length = len(data)
+    for i in range(int(length*1.5)):
+        ind1 = randint(0,length-1)
+        ind2 = randint(0,length-1)
+        temp = data[ind1]
+        data[ind1] = data[ind2]
+        data[ind2] = temp
+    return data
 
 def data2XY(data):
     X = []

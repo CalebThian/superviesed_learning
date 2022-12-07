@@ -6,8 +6,7 @@ from random import randint,choices
 from utils import classify
 
 class myRandomForestClassifier:
-    def __init__(self,Dict=None):
-        self.Dict = Dict
+    def __init__(self):
         self.n_estimators = 10
         self.max_features = int(42**0.5)
         self.max_depth = 3
@@ -22,10 +21,6 @@ class myRandomForestClassifier:
         self.sample_list = []
         for i in range(1,self.num_features):
             self.sample_list.append(i)
-        
-    def set_Dict(self,Dict):
-        # For acceleration, need to set the dictionary of categorical features' label encoder
-        self.Dict = Dict
 
     def fit(self,X,y):
         self.seq = []
@@ -76,17 +71,9 @@ class myRandomForestClassifier:
 
     def data_col(self,data,feature_ind):
         col_data = []
-        if feature_ind in self.feature_cat: # +1 because the key value in Dict didn't exclude ID
-            max_counter = len(self.Dict[feature_ind+1])
-            ls = []
-            for i in range(max_counter):
-                ls.append(i)
-        else:
-            ls = set()
-            for d in data:
-                ls.add(d[feature_ind])
-
+        ls = set()
         for d in data:
+            ls.add(d[feature_ind])
             col_data.append(d[feature_ind])
 
         return col_data,ls
@@ -227,4 +214,4 @@ class myRandomForestClassifier:
         return pred_ls
     
     def get_params(self,deep=False):
-        return {Dict: self.Dict()}
+        return dict()

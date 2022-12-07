@@ -19,11 +19,11 @@ def visualize_score(conf_mat):
     ylabel('Truth', fontsize = 15) # y-axis label with fontsize 15
 
 def data_process(val_size=0.1,test_size = 0.1,path=  "..//data//train.csv"):
-    header,data,Dict = read_csv(path)
+    header,data = read_csv(path)
     train,test,_ = train_test_split(data,val_size=0.2,test_size=0)
     X_train,y_train = data2XY(train)
     X_test,y_test = data2XY(test)
-    return X_train,y_train,X_test,y_test,Dict
+    return X_train,y_train,X_test,y_test
 
 def confusion_matrix(y_true,y_pred):
     TP = 0
@@ -58,15 +58,8 @@ def confusion_matrix(y_true,y_pred):
 
 def classify(clf,name,data_path =  "..//data//train.csv"):
     print(f"{name}:")
-    X_train,y_train,X_test,y_test,Dict = data_process(val_size = 0.2,test_size = 0,path = data_path)
-    
-    if "my" in name: #My random forest classifier
-        clf.set_Dict(Dict)
-    
-    if "Cat" in name: # CatBoost
-        clf.fit(X_train, y_train,verbose=0)
-    else:
-        clf.fit(X_train, y_train)
+    X_train,y_train,X_test,y_test = data_process(val_size = 0.2,test_size = 0,path = data_path)
+    clf.fit(X_train, y_train)
      
     y_pred = clf.predict(X_train)
     conf_mat = confusion_matrix(y_train,y_pred)
@@ -79,11 +72,7 @@ def classify(clf,name,data_path =  "..//data//train.csv"):
     
 def classify_k_fold(clf,name,k,data_path = '..//data//train.csv'):
     print(f"{name}: F1-score")
-    X,y,_,_,Dict = data_process(val_size = 0,test_size = 0,path = data_path)
-    
-    
-    if "my" in name: #My random forest classifier
-        clf.set_Dict(Dict)
+    X,y,_,_ = data_process(val_size = 0,test_size = 0,path = data_path)
     for cv in k:
         mean_score = cross_val_score(clf, X, y, scoring="f1", cv = cv).mean()
         print(f"->{cv}-fold cross validation:{mean_score}")
